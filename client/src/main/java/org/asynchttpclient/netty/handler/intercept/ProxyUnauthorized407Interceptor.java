@@ -144,6 +144,7 @@ public class ProxyUnauthorized407Interceptor {
                 try {
                     kerberosProxyChallenge(proxyRealm, proxyServer, requestHeaders);
                 } catch (SpnegoEngineException e) {
+                    LOGGER.error("Kerberos/Spnego proxy auth failed", e);
                     String ntlmHeader2 = getHeaderWithPrefix(proxyAuthHeaders, "NTLM");
                     if (ntlmHeader2 != null) {
                         LOGGER.warn("Kerberos/Spnego proxy auth failed, proceeding with NTLM");

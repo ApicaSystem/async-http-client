@@ -71,14 +71,16 @@
     </scm>
 
     <distributionManagement>
-        <snapshotRepository>
-            <id>sonatype-nexus-staging</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
         <repository>
-            <id>sonatype-nexus-staging</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+            <id>apica-artifacts</id>
+            <name>a0pbpgwdghsu9-artifactory-primary-0-releases</name>
+            <url>https://apica.jfrog.io/artifactory/backend-services-releases</url>
         </repository>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <name>a0pbpgwdghsu9-artifactory-primary-0-snapshots</name>
+            <url>https://apica.jfrog.io/artifactory/backend-services-snapshots</url>
+        </snapshotRepository>
     </distributionManagement>
 
     <issueManagement>
