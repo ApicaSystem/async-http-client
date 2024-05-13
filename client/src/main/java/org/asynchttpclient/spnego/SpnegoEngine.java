@@ -236,7 +236,7 @@ public class SpnegoEngine {
             // other error
             throw new SpnegoEngineException(gsse.getMessage());
         } catch (IOException | LoginException | PrivilegedActionException ex) {
-            throw new SpnegoEngineException(ex.getMessage());
+            throw new SpnegoEngineException(ex.getMessage(), ex);
         }
     }
 
