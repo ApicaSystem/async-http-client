@@ -156,8 +156,6 @@ public class SpnegoEngine {
             // Try SPNEGO by default, fall back to Kerberos later if error
             negotiationOid = new Oid(SPNEGO_OID);
 
-            boolean tryKerberos = false;
-            String spn = getCompleteServicePrincipalName(host);
             try {
                 GSSManager manager = GSSManager.getInstance();
                 GSSName serverName = getCompleteGSSName(host, manager);
