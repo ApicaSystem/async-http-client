@@ -23,6 +23,7 @@ import io.netty.util.Timer;
 import org.asynchttpclient.cookie.CookieEvictionTask;
 import org.asynchttpclient.cookie.CookieStore;
 import org.asynchttpclient.cookie.ThreadSafeCookieStore;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.condition.EnabledOnOs;
 import org.junit.jupiter.api.condition.OS;
 
@@ -57,6 +58,7 @@ public class DefaultAsyncHttpClientTest {
 
     @RepeatedIfExceptionsTest(repeats = 5)
     @EnabledOnOs(OS.LINUX)
+    @Disabled // doesn't work on TeamCity Agent
     public void testNativeTransportWithoutEpollOnly() throws Exception {
         AsyncHttpClientConfig config = config().setUseNativeTransport(true).setUseOnlyEpollNativeTransport(false).build();
         try (DefaultAsyncHttpClient client = (DefaultAsyncHttpClient) asyncHttpClient(config)) {

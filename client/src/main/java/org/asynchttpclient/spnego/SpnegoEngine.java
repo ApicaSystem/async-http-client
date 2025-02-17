@@ -152,10 +152,9 @@ public class SpnegoEngine {
             negotiationOid = new Oid(SPNEGO_OID);
 
             boolean tryKerberos = false;
-            String spn = getCompleteServicePrincipalName(host);
             try {
                 GSSManager manager = GSSManager.getInstance();
-                GSSName serverName = manager.createName(spn, GSSName.NT_HOSTBASED_SERVICE);
+                GSSName serverName = getCompleteGSSName(host, manager);
                 GSSCredential myCred = null;
                 if (username != null || loginContextName != null || customLoginConfig != null && !customLoginConfig.isEmpty()) {
                     String contextName = loginContextName;
@@ -192,7 +191,7 @@ public class SpnegoEngine {
                 log.debug("Using Kerberos MECH {}", KERBEROS_OID);
                 negotiationOid = new Oid(KERBEROS_OID);
                 GSSManager manager = GSSManager.getInstance();
-                GSSName serverName = manager.createName(spn, GSSName.NT_HOSTBASED_SERVICE);
+                GSSName serverName = getCompleteGSSName(host, manager);
                 gssContext = manager.createContext(serverName.canonicalize(negotiationOid), negotiationOid, null,
                         GSSContext.DEFAULT_LIFETIME);
                 gssContext.requestMutualAuth(true);
@@ -239,6 +238,16 @@ public class SpnegoEngine {
         } catch (IOException | LoginException | PrivilegedActionException ex) {
             throw new SpnegoEngineException(ex.getMessage());
         }
+    }
+
+    GSSName getCompleteGSSName(String host, GSSManager manager) throws GSSException {
+        if (servicePrincipalName != null && servicePrincipalName.contains("@")) {
+            log.debug("Service Principal Name is {}", servicePrincipalName);
+            return manager.createName(servicePrincipalName, GSSName.NT_USER_NAME);
+        }
+
+        String spn = getCompleteServicePrincipalName(host);
+        return manager.createName(spn, GSSName.NT_HOSTBASED_SERVICE);
     }
 
     String getCompleteServicePrincipalName(String host) {
